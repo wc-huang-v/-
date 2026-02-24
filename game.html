@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A or An? Game</title>
+    <style>
+        /* Fun, kid-friendly styling */
+        body { 
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; 
+            text-align: center; 
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333; 
+            margin: 0;
+            padding: 20px;
+        }
+        #game-board { 
+            margin: 20px auto; 
+            max-width: 500px; 
+            background: white; 
+            padding: 40px 20px; 
+            border-radius: 25px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+            border: 5px solid #ffcc00;
+        }
+        h1 {
+            color: #ff9900;
+            font-size: 2.5em;
+            margin-top: 0;
+        }
+        .word-display { 
+            font-size: 4em; 
+            margin: 30px 0; 
+            font-weight: bold;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .btn { 
+            font-size: 2.5em; 
+            padding: 15px 40px; 
+            border: none; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            color: white; 
+            font-weight: bold;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.2);
+            transition: transform 0.1s, box-shadow 0.1s; 
+        }
+        .btn:active { 
+            transform: translateY(5px); 
+            box-shadow: 0 0 0 rgba(0,0,0,0.2);
+        }
+        #btn-a { background-color: #ff6b6b; } /* Red button for A */
+        #btn-an { background-color: #4ecdc4; } /* Teal button for An */
+        
+        #feedback { 
+            font-size: 1.5em; 
+            height: 40px; 
+            font-weight: bold; 
+            margin-top: 30px; 
+        }
+        .correct { color: #4ecdc4; }
+        .wrong { color: #ff6b6b; font-size: 1.2em; }
+        
+        #score-board { 
+            font-size: 1.5em; 
+            color: #666; 
+            background: #eee;
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-board">
+        <h1>A or An? 🎈</h1>
+        <div id="score-board">⭐ Score: <span id="score">0</span></div>
+        
+        <div class="word-display" id="word">Loading...</div>
+        
+        <div class="btn-container">
+            <button class="btn" id="btn-a" onclick="checkAnswer('a')">A</button>
+            <button class="btn" id="btn-an" onclick="checkAnswer('an')">An</button>
+        </div>
+        
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+        // Vocabulary list tailored for EFL 2nd Graders (with emojis!)
+        const words = [
+            { text: "🍎 apple", answer: "an" },
+            { text: "🐱 cat", answer: "a" },
+            { text: "🐘 elephant", answer: "an" },
+            { text: "🐶 dog", answer: "a" },
+            { text: "🍦 ice cream", answer: "an" },
+            { text: "🚗 car", answer: "a" },
+            { text: "☂️ umbrella", answer: "an" },
+            { text: "⭐ star", answer: "a" },
+            { text: "🦉 owl", answer: "an" },
+            { text: "🐟 fish", answer: "a" },
+            { text: "🥚 egg", answer: "an" },
+            { text: "🐢 turtle", answer: "a" }
+        ];
+
+        let score = 0;
+        let currentWord;
+
+        // Function to dynamically update the view with a new word
+        function pickRandomWord() {
+            const randomIndex = Math.floor(Math.random() * words.length);
+            currentWord = words[randomIndex];
+            
+            // Update the screen
+            document.getElementById('word').innerText = currentWord.text;
+            document.getElementById('feedback').innerText = ""; 
+        }
+
+        // Function to check the student's answer
+        function checkAnswer(guess) {
+            const feedbackEl = document.getElementById('feedback');
+            const scoreEl = document.getElementById('score');
+
+            if (guess === currentWord.answer) {
+                feedbackEl.innerText = "🎉 Correct! Great job!";
+                feedbackEl.className = "correct";
+                score++;
+                scoreEl.innerText = score;
+                
+                // Wait 1.5 seconds, then load the next word automatically
+                setTimeout(pickRandomWord, 1500); 
+            } else {
+                feedbackEl.innerText = "Oops! Try again. \n💡 Hint: a, e, i, o, u use 'an'!";
+                feedbackEl.className = "wrong";
+            }
+        }
+
+        // Start the game when the page loads
+        pickRandomWord();
+    </script>
+</body>
+</html>
